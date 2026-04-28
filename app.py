@@ -102,6 +102,13 @@ async def serve_frontend():
     return FileResponse("static/index.html")
 
 
+@app.get("/health")
+@app.head("/health")
+async def health_check():
+    """Health check endpoint for uptime monitors."""
+    return {"status": "ok"}
+
+
 @app.post("/process-images")
 async def process_images(
     images: Optional[list[UploadFile]] = File(None),
