@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Upload images and add professional branding overlays — logo, email, phone, location, and services. Download from Cloudinary.">
+    <title>BrandForge — Image Processor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css?v=6">
+</head>
+<body>
+    <!-- ============================================================ -->
+    <!-- BACKGROUND DECORATIONS                                       -->
+    <!-- ============================================================ -->
+    <div id="shader-container" class="bg-shader"></div>
+
+    <!-- ============================================================ -->
+    <!-- MAIN CONTAINER                                               -->
+    <!-- ============================================================ -->
+    <div class="app-container">
+
+        <!-- Mini Navbar -->
+        <header class="mini-navbar">
+            <a href="/" class="nav-logo">
+                <div class="logo-dots">
+                    <span></span><span></span><span></span><span></span>
+                </div>
+                BrandForge
+            </a>
+            <div class="nav-actions">
+                <button class="nav-btn-profile" onclick="window.location.href='/profile'">Profile</button>
+                <button class="nav-btn-logout" id="btn-logout">Logout</button>
+            </div>
+        </header>
+
+        <!-- Main Card -->
+        <main class="main-card" id="main-card">
+            <div class="card-glow"></div>
+
+            <!-- Section: Image Upload (Multi) -->
+            <div class="form-section animate-in delay-100">
+                <label class="form-label">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                        <circle cx="8.5" cy="8.5" r="1.5"/>
+                        <polyline points="21 15 16 10 5 21"/>
+                    </svg>
+                    Upload Images
+                </label>
+                <div class="upload-zone" id="images-upload-zone">
+                    <input type="file" id="images-input" accept="image/jpeg,image/png" multiple hidden>
+                    <div class="upload-content" id="images-upload-content">
+                        <div class="upload-icon">
+                            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="17 8 12 3 7 8"/>
+                                <line x1="12" y1="3" x2="12" y2="15"/>
+                            </svg>
+                        </div>
+                        <p class="upload-text">Drag & drop images here or click to browse</p>
+                        <p class="upload-hint">JPG or PNG &bull; Multiple files allowed</p>
+                    </div>
+                </div>
+                <!-- Preview Grid -->
+                <div class="preview-grid" id="preview-grid"></div>
+            </div>
+
+            <!-- Section: AI Image Generation -->
+            <div class="form-section animate-in delay-150">
+                <label class="form-label" for="image-prompt-input">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+                    </svg>
+                    AI Image Generation
+                    <span class="optional-tag">Optional</span>
+                </label>
+                <textarea 
+                    id="image-prompt-input" 
+                    class="form-input form-textarea" 
+                    placeholder="Describe an image you want to generate (e.g., A futuristic cyberpunk cityscape)..."
+                ></textarea>
+                <span class="form-hint">Powered by Google Gemini Imagen 3. Generated images will automatically receive your overlays.</span>
+            </div>
+
+            <!-- Section: Logo Upload -->
+            <div class="form-section animate-in delay-200">
+                <label class="form-label">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                        <path d="M2 17l10 5 10-5"/>
+                        <path d="M2 12l10 5 10-5"/>
+                    </svg>
+                    Upload Logo
+                </label>
+                <div class="upload-zone upload-zone--small" id="logo-upload-zone">
+                    <input type="file" id="logo-input" accept="image/*" hidden>
+                    <div class="upload-content" id="logo-upload-content">
+                        <div class="upload-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="17 8 12 3 7 8"/>
+                                <line x1="12" y1="3" x2="12" y2="15"/>
+                            </svg>
+                        </div>
+                        <p class="upload-text">Click to upload your logo</p>
+                        <p class="upload-hint">PNG, JPEG, or WEBP &bull; Max 5MB</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section: Email & Phone -->
+            <div class="form-row animate-in delay-300">
+                <div class="form-section">
+                    <label class="form-label" for="email-input">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                            <polyline points="22,6 12,13 2,6"/>
+                        </svg>
+                        Email Address
+                    </label>
+                    <input
+                        type="email"
+                        id="email-input"
+                        class="form-input"
+                        placeholder="you@example.com"
+                    >
+                </div>
+                <div class="form-section">
+                    <label class="form-label" for="phone-input">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+                        </svg>
+                        Phone Number
+                    </label>
+                    <input
+                        type="tel"
+                        id="phone-input"
+                        class="form-input"
+                        placeholder="+1 (555) 123-4567"
+                    >
+                </div>
+            </div>
+
+            <!-- Section: Location & Business Name -->
+            <div class="form-row animate-in delay-400">
+                <div class="form-section">
+                    <label class="form-label" for="location-input">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                            <circle cx="12" cy="10" r="3"/>
+                        </svg>
+                        Location
+                    </label>
+                    <input
+                        type="text"
+                        id="location-input"
+                        class="form-input"
+                        placeholder="New York, NY"
+                    >
+                </div>
+                <div class="form-section">
+                    <label class="form-label" for="business-name-input">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                            <polyline points="9 22 9 12 15 12 15 22"/>
+                        </svg>
+                        Business Name
+                        <span class="optional-tag">optional</span>
+                    </label>
+                    <input
+                        type="text"
+                        id="business-name-input"
+                        class="form-input"
+                        placeholder="My Business LLC"
+                    >
+                </div>
+            </div>
+
+            <!-- Section: Services -->
+            <div class="form-section animate-in delay-500">
+                <label class="form-label" for="services-input">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="9 11 12 14 22 4"/>
+                        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+                    </svg>
+                    Services Provided
+                </label>
+                <textarea
+                    id="services-input"
+                    class="form-input form-textarea"
+                    placeholder="Web Design&#10;Photography&#10;Social Media Marketing"
+                    rows="3"
+                ></textarea>
+                <span class="form-hint">One service per line, or comma-separated</span>
+            </div>
+
+            <!-- Action Button -->
+            <button class="btn btn--primary" id="process-btn" disabled>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                </svg>
+                <span>Process Images</span>
+            </button>
+        </main>
+
+        <!-- Status / Results Panel -->
+        <div class="status-panel" id="status-panel" style="display:none;">
+            <div class="status-header">
+                <h2 id="status-title">Processing...</h2>
+                <div class="spinner" id="spinner"></div>
+            </div>
+            <div class="status-body" id="status-body">
+                <!-- Dynamic status messages appear here -->
+            </div>
+        </div>
+
+        <!-- Results Gallery -->
+        <div class="results-gallery" id="results-gallery" style="display:none;">
+            <div class="results-gallery__header">
+                <h2>Processed Images</h2>
+                <button class="btn btn--download-all" id="download-all-btn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="7 10 12 15 17 10"/>
+                        <line x1="12" y1="15" x2="12" y2="3"/>
+                    </svg>
+                    Download All as ZIP
+                </button>
+            </div>
+            <div class="results-grid" id="results-grid">
+                <!-- Processed image cards appear here -->
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <p>BrandForge &mdash; Built with FastAPI, Pillow &amp; Cloudinary</p>
+        </footer>
+    </div>
+
+    <!-- Firebase SDK Setup -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCNdHt3Va7yIYfQh5zNAv2OzV_Y5SD9S1s",
+            authDomain: "template-project-4d51c.firebaseapp.com",
+            projectId: "template-project-4d51c",
+            storageBucket: "template-project-4d51c.firebasestorage.app",
+            messagingSenderId: "478603463912",
+            appId: "1:478603463912:web:40cc54c15b1b091765cd5d"
+        };
+        
+        const app = initializeApp(firebaseConfig);
+        window.auth = getAuth(app);
+        window.db = getFirestore(app);
+        window.onAuthStateChanged = onAuthStateChanged;
+        window.signOut = signOut;
+        window.collection = collection;
+        window.addDoc = addDoc;
+        window.serverTimestamp = serverTimestamp;
+
+        window.dispatchEvent(new Event('firebase-ready'));
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="/static/script.js?v=5"></script>
+</body>
+</html>
