@@ -1,19 +1,21 @@
 import type { NextConfig } from "next";
 
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://127.0.0.1:8000";
+
 const nextConfig: NextConfig = {
   async rewrites() {
     return [
       {
         source: '/dashboard',
-        destination: 'http://127.0.0.1:8000/',
+        destination: `${BACKEND_URL}/`,
       },
       {
         source: '/static/:path*',
-        destination: 'http://127.0.0.1:8000/static/:path*',
+        destination: `${BACKEND_URL}/static/:path*`,
       },
       {
         source: '/process-images',
-        destination: 'http://127.0.0.1:8000/process-images',
+        destination: `${BACKEND_URL}/process-images`,
       }
     ];
   }
